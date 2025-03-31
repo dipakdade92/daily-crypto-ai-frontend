@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
-    const [name, setName] = useState('');
+    const [name, setName] = useState(''); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -80,7 +80,7 @@ const Auth = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-500 flex items-center justify-center p-6">
             <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
                 <div className="p-8">
                     <div className="flex items-center justify-between mb-6">

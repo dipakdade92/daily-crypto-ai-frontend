@@ -4,10 +4,10 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { useAuth } from '../AuthContext';
 import { fetchBooks, addBook, updateBook, deleteBook } from '../api/apiService'; 
 import { toast } from 'react-toastify'; 
-
+import { BookOpen, Edit2, Trash2, Plus, Library } from 'lucide-react';
 
 const Home = () => {
-    const { token } = useAuth(); // Get the token from AuthContext
+    const { token } = useAuth();
     const [books, setBooks] = useState([]); 
     const [bookTitle, setBookTitle] = useState(''); 
     const [bookAuthor, setBookAuthor] = useState(''); 
@@ -16,7 +16,6 @@ const Home = () => {
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); 
     const [bookToDelete, setBookToDelete] = useState(null); 
 
-    // Fetch books on component mount
     useEffect(() => {
         const loadBooks = async () => {
             try {
@@ -49,7 +48,7 @@ const Home = () => {
         console.log(book)
         setBookTitle(book.name);
         setBookAuthor(book.author);
-        setEditingIndex(book._id); // Store the book ID for updating
+        setEditingIndex(book._id);
         setIsModalOpen(true); 
     };
 
@@ -66,7 +65,7 @@ const Home = () => {
         setBookTitle('');
         setBookAuthor('');
         setIsModalOpen(false); 
-        setEditingIndex(null); // Reset editing index
+        setEditingIndex(null);
     };
 
     const handleDeleteBook = (id) => {
@@ -83,46 +82,66 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 p-4">
-            <div className="w-full bg-white shadow-2xl rounded-2xl overflow-hidden h-full">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-400 to-pink-500 p-6">
+            <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden h-full backdrop-blur-lg bg-opacity-95">
                 <div className="p-8">
-                    <h4 className="text-xl font-bold text-gray-800 mb-4">
-                        Manage Your Book Collection
-                    </h4>
-                    <button
-                        onClick={() => {
-                            setBookTitle('');
-                            setBookAuthor('');
-                            setEditingIndex(null);
-                            setIsModalOpen(true); 
-                        }}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 mb-4"
-                    >
-                        Add Book
-                    </button>
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center">
+                            <Library className="w-8 h-8 text-indigo-600 mr-3" />
+                            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                                My Bookshelf
+                            </h1>
+                        </div>
+                        <button
+                            onClick={() => {
+                                setBookTitle('');
+                                setBookAuthor('');
+                                setEditingIndex(null);
+                                setIsModalOpen(true); 
+                            }}
+                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition duration-300 flex items-center shadow-md"
+                        >
+                            <Plus className="w-5 h-5 mr-2" />
+                            Add Book
+                        </button>
+                    </div>
 
-                    <h5 className="text-lg font-semibold mb-2">Your Books:</h5>
-                    <ul className="list-disc pl-5">
-                        {books?.map((book) => (
-                            <li key={book._id} className="flex justify-between items-center mb-2">
-                                <span>{book.name} by {book.author}</span>
-                                <div>
-                                    <button
-                                        onClick={() => handleEditBook(book)}
-                                        className="text-blue-500 hover:underline mr-2"
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteBook(book._id)}
-                                        className="text-red-500 hover:underline"
-                                    >
-                                        Delete
-                                    </button>
+                    {books?.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {books.map((book) => (
+                                <div key={book._id} className="relative bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border border-indigo-100">
+                                    <div className="flex items-start mb-2">
+                                        <BookOpen className="w-5 h-5 text-indigo-500 mr-2 mt-1" />
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-semibold text-gray-800">{book.name}</h3>
+                                            <p className="text-gray-600 italic">by {book.author}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end mt-4 space-x-2">
+                                        <button
+                                            onClick={() => handleEditBook(book)}
+                                            className="p-2 text-indigo-600 hover:bg-indigo-100 rounded-full transition-colors"
+                                            aria-label="Edit book"
+                                        >
+                                            <Edit2 className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteBook(book._id)}
+                                            className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                                            aria-label="Delete book"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    </div>
                                 </div>
-                            </li>
-                        ))}
-                    </ul>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12 bg-gray-50 rounded-xl">
+                            <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                            <p className="text-gray-500 text-lg">Your bookshelf is empty. Add your first book!</p>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -130,7 +149,7 @@ const Home = () => {
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={editingIndex ? handleUpdateBook : handleAddBook} // Call the appropriate function
+                onSubmit={editingIndex ? handleUpdateBook : handleAddBook}
                 bookTitle={bookTitle}
                 editingIndex={editingIndex}
                 setBookTitle={setBookTitle}
@@ -149,4 +168,4 @@ const Home = () => {
     );
 };
 
-export default Home; 
+export default Home;
