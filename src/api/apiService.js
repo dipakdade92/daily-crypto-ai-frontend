@@ -6,7 +6,17 @@ const axiosInstance = axios.create({
   // other axios settings...
 });
 
-export const fetchData = async () => {
+// Add a request interceptor to include the token in headers
+const setAuthToken = (token) => {
+  if (token) {
+    axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers['Authorization'];
+  }
+};
+
+export const fetchData = async (token) => {
+  setAuthToken(token); // Set the token for the request
   try {
     const response = await axiosInstance.get("/data"); // Adjust the endpoint as needed
     return response.data;
@@ -27,7 +37,12 @@ export const login = async (email, password) => {
     const response = await axiosInstance.post("/api/auth/login", payload);
     return response.data;
   } catch (error) {
-    throw error.response.data;
+    console.error("Login error:", error);
+    if (error.response) {
+      throw error.response.data;
+    } else {
+      throw { message: "Network error or server not reachable" };
+    }
   }
 };
 

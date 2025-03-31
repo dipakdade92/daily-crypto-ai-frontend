@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { login, register } from '../api/apiService';
 import { Lock, Mail, User, ArrowRight } from 'lucide-react';
+import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -10,7 +12,8 @@ const Auth = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-
+    const { login: authLogin } = useAuth();
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         if (e.target.name === 'name') {
@@ -26,7 +29,7 @@ const Auth = () => {
         e.preventDefault();
         setLoading(true);
         
-        // Simple email validation
+        // email validation
         if (!/\S+@\S+\.\S+/.test(email)) {
             toast.error('Please enter a valid email address');
             setLoading(false);
@@ -34,8 +37,13 @@ const Auth = () => {
         }
 
         try {
-            const data = await register(name, email, password); // Call register API
+            const data = await register(name, email, password); 
             toast.success('Registration successful!');
+            
+            // Navigate to login page after successful registration
+            setTimeout(() => {
+                setIsLogin(true); 
+            }, 2000); 
         } catch (error) {
             toast.error(error.message || 'Registration failed');
         } finally {
@@ -47,7 +55,6 @@ const Auth = () => {
         e.preventDefault();
         setLoading(true);
         
-        // Simple email validation
         if (!/\S+@\S+\.\S+/.test(email)) {
             toast.error('Please enter a valid email address');
             setLoading(false);
@@ -55,9 +62,16 @@ const Auth = () => {
         }
 
         try {
-            const data = await login(email, password); // Call login API
+            const response = await login(email, password); 
+            const { token, user } = response;
             toast.success('Login successful!');
-            // Handle successful login (e.g., redirect or store token)
+            authLogin(token); 
+            
+            // Store user information in local storage
+            localStorage.setItem('user', JSON.stringify(user)); 
+            localStorage.setItem('token', token); 
+            
+            navigate('/home'); 
         } catch (error) {
             toast.error(error.message || 'Login failed');
         } finally {
