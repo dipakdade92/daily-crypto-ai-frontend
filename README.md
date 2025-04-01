@@ -1,5 +1,6 @@
 # Getting Started React App
 # Take a clone from this Repo after cloning do follow below steps:
+https://github.com/dipakdade92/daily-crypto-ai-frontend.git
 # First install npm packages with
 npm install
 
