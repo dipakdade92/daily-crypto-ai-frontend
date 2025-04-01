@@ -9,5 +9,7 @@ https://github.com/dipakdade92/daily-crypto-ai-frontend.git
 
 ## used Tailwind css for ui designing
 
+## First run the backend in your local system the start frontend
+
 ## After installing all node modules run below command to start the application
 - npm start
