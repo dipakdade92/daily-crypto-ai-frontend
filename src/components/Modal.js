@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, onSubmit, bookTitle, setBookTitle, bookAuthor,
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-all duration-300">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-all duration-300 p-3">
             <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl transform transition-all duration-300">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">

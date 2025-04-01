@@ -5,7 +5,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, message }) => {
     if (!isOpen) return null; 
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-all duration-300">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-all duration-300 p-4">
             <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl transform transition-all duration-300 border-t-4 border-red-500">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
